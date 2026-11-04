@@ -1,0 +1,452 @@
+<!doctype html>
+<html lang="uk">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Nails Studio · Prime Barber</title>
+  <meta name="description" content="Nails Studio та Prime Barber — манікюр, nail-art, стрижки й догляд за бородою під одним дахом." />
+  <meta name="theme-color" content="#0b0a0b" />
+
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+
+  <script src="https://cdn.tailwindcss.com/3.4.16"></script>
+  <script>
+    tailwind.config = {
+      theme: {
+        extend: {
+          colors: {
+            rose: { soft: '#e9bfc0', blush: '#f4dcd9', deep: '#b97a7d' },
+            gold: { DEFAULT: '#c9a96e', light: '#e3cb9b' },
+            amber: { brand: '#d4a24c', glow: '#f0b95a' },
+            ink: { DEFAULT: '#0b0a0b', soft: '#151314' }
+          },
+          fontFamily: {
+            serif: ['"Cormorant Garamond"', 'serif'],
+            sans: ['Inter', 'system-ui', 'sans-serif'],
+            display: ['Oswald', 'Impact', 'sans-serif']
+          }
+        }
+      }
+    };
+  </script>
+  <script src="https://unpkg.com/lucide@0.468.0/dist/umd/lucide.min.js"></script>
+
+  <style>
+    :root {
+      --ease-takeover: cubic-bezier(.77, 0, .18, 1);
+      --dur-takeover: .85s;
+      --grow-active: 85;
+      --grow-collapsed: 15;
+    }
+    html, body { height: 100%; background: #0b0a0b; }
+    body { -webkit-font-smoothing: antialiased; }
+
+    /* ---------- Split container ---------- */
+    .hero { height: 100vh; height: 100dvh; }
+    .panel {
+      position: relative;
+      flex: 1 1 0;
+      min-width: 0;
+      min-height: 0;
+      overflow: hidden;
+      isolation: isolate;
+      transition: flex-grow var(--dur-takeover) var(--ease-takeover);
+    }
+    .hero.has-active .panel.is-active { flex-grow: var(--grow-active); }
+    .hero.has-active .panel:not(.is-active) { flex-grow: var(--grow-collapsed); }
+
+    /* ---------- Background + lighting ---------- */
+    .panel__bg {
+      position: absolute; inset: -2%;
+      background-size: cover; background-position: center;
+      transform: scale(1.02);
+      filter: saturate(.9) brightness(.62);
+      transition: transform 1.4s cubic-bezier(.2,.7,.2,1), filter .9s ease;
+      z-index: -2;
+    }
+    .panel__light {
+      position: absolute; inset: 0; z-index: -1;
+      opacity: .55; transition: opacity .8s ease;
+    }
+    .hero:not(.has-active) .panel:hover .panel__bg,
+    .hero:not(.has-active) .panel:focus-within .panel__bg {
+      transform: scale(1.08);
+      filter: saturate(1.05) brightness(.78);
+    }
+    .hero:not(.has-active) .panel:hover .panel__light { opacity: 1; }
+    .hero.has-active .panel.is-active .panel__bg { filter: saturate(.85) brightness(.32) blur(2px); transform: scale(1.06); }
+    .hero.has-active .panel:not(.is-active) .panel__bg { filter: saturate(.4) brightness(.35); }
+
+    .panel--nails .panel__bg { background-color: #3a2a2c; }
+    .panel--barber .panel__bg { background-color: #18140f; }
+    .panel--nails .panel__light {
+      background:
+        radial-gradient(120% 80% at 20% 15%, rgba(244,220,217,.28), transparent 60%),
+        linear-gradient(180deg, rgba(25,16,18,.15) 0%, rgba(25,14,16,.85) 100%);
+    }
+    .panel--barber .panel__light {
+      background:
+        radial-gradient(120% 80% at 80% 20%, rgba(240,185,90,.25), transparent 60%),
+        linear-gradient(180deg, rgba(8,7,6,.2) 0%, rgba(8,7,6,.92) 100%);
+    }
+
+    /* ---------- Layers: cover / rail / details ---------- */
+    .layer { position: absolute; inset: 0; transition: opacity .5s ease, visibility 0s linear .5s; }
+
+    .cover { opacity: 1; visibility: visible; transition-delay: .35s, 0s; }
+    .hero.has-active .cover { opacity: 0; visibility: hidden; pointer-events: none; transition-delay: 0s, .5s; }
+
+    .rail { opacity: 0; visibility: hidden; pointer-events: none; }
+    .hero.has-active .panel:not(.is-active) .rail {
+      opacity: 1; visibility: visible; pointer-events: auto; transition-delay: .45s, 0s;
+    }
+
+    .details { opacity: 0; visibility: hidden; pointer-events: none; }
+    .panel.is-active .details {
+      opacity: 1; visibility: visible; pointer-events: auto; transition-delay: .5s, 0s;
+    }
+    .details__inner > * {
+      opacity: 0; transform: translateY(18px);
+      transition: opacity .6s ease, transform .7s cubic-bezier(.2,.7,.2,1);
+    }
+    .panel.is-active .details__inner > * { opacity: 1; transform: none; }
+    .panel.is-active .details__inner > *:nth-child(1) { transition-delay: .55s; }
+    .panel.is-active .details__inner > *:nth-child(2) { transition-delay: .65s; }
+    .panel.is-active .details__inner > *:nth-child(3) { transition-delay: .75s; }
+
+    .rail__label { writing-mode: vertical-rl; transform: rotate(180deg); }
+    @media (max-width: 767px) {
+      :root { --grow-active: 90; --grow-collapsed: 10; }
+      .rail__label { writing-mode: horizontal-tb; transform: none; }
+    }
+
+    /* ---------- Cover CTA arrow ---------- */
+    .cover__cta svg { transition: transform .4s ease; }
+    .panel:hover .cover__cta svg { transform: translateX(6px); }
+
+    /* ---------- Services ---------- */
+    .service { transition: background-color .3s ease, border-color .3s ease, transform .2s ease; }
+    .service:active { transform: scale(.985); }
+    .service__check { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
+    .panel--nails .service[aria-pressed="true"] { background: rgba(233,191,192,.12); border-color: rgba(233,191,192,.6); }
+    .panel--nails .service[aria-pressed="true"] .service__check { background: #e9bfc0; border-color: #e9bfc0; color: #2a1a1c; }
+    .panel--barber .service[aria-pressed="true"] { background: rgba(212,162,76,.12); border-color: rgba(212,162,76,.7); }
+    .panel--barber .service[aria-pressed="true"] .service__check { background: #d4a24c; border-color: #d4a24c; color: #120e08; }
+    .service__check svg { opacity: 0; transition: opacity .2s ease; }
+    .service[aria-pressed="true"] .service__check svg { opacity: 1; }
+
+    .scroll-area { scrollbar-width: thin; scrollbar-color: rgba(255,255,255,.18) transparent; }
+
+    /* ---------- Booking dialog ---------- */
+    dialog::backdrop { background: rgba(5,4,5,.7); backdrop-filter: blur(6px); }
+    dialog[open] { animation: dialog-in .35s cubic-bezier(.2,.7,.2,1); }
+    @keyframes dialog-in { from { opacity: 0; transform: translateY(16px) scale(.98); } }
+
+    @media (prefers-reduced-motion: reduce) {
+      *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation-duration: .01ms !important; }
+    }
+  </style>
+</head>
+<body class="font-sans text-white overflow-hidden">
+
+<main id="hero" class="hero flex flex-col md:flex-row">
+
+  <!-- ===================== NAILS STUDIO ===================== -->
+  <section class="panel panel--nails" data-brand="nails" aria-label="Nails Studio">
+    <div class="panel__bg" style="background-image:url('https://images.unsplash.com/photo-1604654894610-df63bc536371?auto=format&fit=crop&w=1600&q=70')"></div>
+    <div class="panel__light"></div>
+
+    <!-- Cover (overview state) -->
+    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 sm:p-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
+      <span class="inline-flex items-center gap-2 text-[11px] tracking-[.35em] uppercase text-rose-blush/80 mb-4">
+        <i data-lucide="sparkles" class="w-4 h-4 text-gold-light"></i> Beauty · Care
+      </span>
+      <span class="font-serif font-medium leading-[.9] text-5xl sm:text-6xl lg:text-8xl text-rose-blush">Nails<br><em class="font-normal text-gold-light">Studio</em></span>
+      <span class="mt-4 max-w-sm text-sm sm:text-base text-white/70 font-light">Естетичний манікюр, nail-art і догляд, після якого руки хочеться показувати.</span>
+      <span class="cover__cta mt-6 sm:mt-8 inline-flex items-center gap-3 rounded-full border border-rose-soft/40 bg-white/5 backdrop-blur px-6 py-3.5 text-sm tracking-wide text-rose-blush group-hover:bg-rose-soft/15 transition-colors">
+        Послуги й ціни <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </span>
+    </button>
+
+    <!-- Rail (collapsed state) -->
+    <button type="button" class="layer rail flex md:flex-col items-center justify-between md:justify-center gap-3 md:gap-6 w-full px-6 md:px-0 py-0 md:py-10 bg-ink/40 backdrop-blur-sm text-rose-blush hover:bg-rose-soft/10 transition-colors" data-open="nails" aria-label="Перейти до Nails Studio">
+      <i data-lucide="sparkles" class="w-5 h-5 text-gold-light shrink-0"></i>
+      <span class="rail__label font-serif text-2xl md:text-3xl tracking-wide">Nails <em class="text-gold-light">Studio</em></span>
+      <i data-lucide="chevron-down" class="w-5 h-5 md:hidden"></i>
+      <i data-lucide="chevron-right" class="w-5 h-5 hidden md:block"></i>
+    </button>
+
+    <!-- Details (expanded state) -->
+    <div class="layer details" id="details-nails" role="region" aria-label="Nails Studio — детально">
+      <div class="h-full overflow-y-auto scroll-area">
+        <div class="details__inner max-w-6xl mx-auto px-5 sm:px-10 lg:px-16 pt-5 sm:pt-10 pb-10 grid gap-8 lg:gap-14 lg:grid-cols-[1fr_1.15fr]">
+          <header class="lg:col-span-2 flex items-center justify-between gap-4">
+            <button type="button" data-close class="inline-flex items-center gap-2 rounded-full border border-white/15 bg-white/5 px-4 py-3 min-h-[44px] text-sm text-white/80 hover:bg-white/10 hover:text-white transition-colors">
+              <i data-lucide="arrow-left" class="w-4 h-4"></i> До огляду
+            </button>
+            <span class="text-[11px] tracking-[.35em] uppercase text-rose-blush/70">Nails Studio</span>
+          </header>
+
+          <div>
+            <h2 class="font-serif text-4xl sm:text-5xl lg:text-6xl leading-[.95] text-rose-blush">Руки, що<br><em class="text-gold-light">говорять</em> за вас</h2>
+            <p class="mt-5 text-white/70 font-light leading-relaxed max-w-md">Камерна студія з м'яким світлом і стерильними інструментами. Працюємо з преміальними гель-лаками, робимо апаратний манікюр без порізів і ручний nail-art — від мінімалізму до мініатюр на кожному нігті.</p>
+
+            <dl class="mt-8 grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+              <div class="rounded-2xl border border-white/10 bg-white/[.04] p-5">
+                <dt class="flex items-center gap-2 text-xs uppercase tracking-[.25em] text-gold-light"><i data-lucide="clock" class="w-4 h-4"></i> Години</dt>
+                <dd class="mt-3 text-sm text-white/80 leading-relaxed">Пн–Пт · 09:00–20:00<br>Сб · 10:00–18:00<br><span class="text-white/45">Нд · вихідний</span></dd>
+              </div>
+              <div class="rounded-2xl border border-white/10 bg-white/[.04] p-5">
+                <dt class="flex items-center gap-2 text-xs uppercase tracking-[.25em] text-gold-light"><i data-lucide="map-pin" class="w-4 h-4"></i> Адреса</dt>
+                <dd class="mt-3 text-sm text-white/80 leading-relaxed">вул. Прикладна, 12<br>2 поверх, вхід з двору</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="flex items-baseline justify-between">
+              <h3 class="font-serif text-2xl text-rose-blush">Послуги</h3>
+              <span class="text-xs text-white/45">Оберіть кілька</span>
+            </div>
+            <ul class="mt-4 grid gap-2.5" data-services="nails"></ul>
+            <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <button type="button" data-book="nails" class="inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-rose-soft to-gold-light text-[#2a1a1c] font-semibold px-8 py-4 min-h-[52px] shadow-[0_10px_40px_-10px_rgba(233,191,192,.6)] hover:brightness-105 transition">
+                Записатися <i data-lucide="calendar-heart" class="w-5 h-5"></i>
+              </button>
+              <p class="text-sm text-white/60" data-summary="nails" aria-live="polite">Оберіть послуги — порахуємо суму.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===================== PRIME BARBER ===================== -->
+  <section class="panel panel--barber" data-brand="barber" aria-label="Prime Barber">
+    <div class="panel__bg" style="background-image:url('https://images.unsplash.com/photo-1503951914875-452162b0f3f1?auto=format&fit=crop&w=1600&q=70')"></div>
+    <div class="panel__light"></div>
+
+    <button type="button" class="layer cover group flex flex-col justify-end items-start md:items-end text-left md:text-right w-full p-6 sm:p-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-amber-brand/70 focus-visible:ring-inset" data-open="barber" aria-expanded="false">
+      <span class="inline-flex items-center gap-2 text-[11px] tracking-[.35em] uppercase text-amber-glow/80 mb-4">
+        <i data-lucide="scissors" class="w-4 h-4"></i> Grooming · Est. 2024
+      </span>
+      <span class="font-display font-bold uppercase leading-[.85] text-5xl sm:text-6xl lg:text-8xl tracking-tight">Prime<br><span class="text-amber-brand">Barber</span></span>
+      <span class="mt-4 max-w-sm text-sm sm:text-base text-white/70">Чіткі фейди, доглянута борода й гоління гарячим рушником. Без поспіху.</span>
+      <span class="cover__cta mt-6 sm:mt-8 inline-flex items-center gap-3 border border-amber-brand/60 bg-black/30 backdrop-blur px-6 py-3.5 text-sm uppercase tracking-[.2em] font-display text-amber-glow group-hover:bg-amber-brand group-hover:text-black transition-colors">
+        Послуги й ціни <i data-lucide="arrow-right" class="w-4 h-4"></i>
+      </span>
+    </button>
+
+    <button type="button" class="layer rail flex md:flex-col items-center justify-between md:justify-center gap-3 md:gap-6 w-full px-6 md:px-0 py-0 md:py-10 bg-black/50 backdrop-blur-sm text-white hover:bg-amber-brand/10 transition-colors" data-open="barber" aria-label="Перейти до Prime Barber">
+      <i data-lucide="scissors" class="w-5 h-5 text-amber-brand shrink-0"></i>
+      <span class="rail__label font-display uppercase text-xl md:text-2xl tracking-[.15em]">Prime <span class="text-amber-brand">Barber</span></span>
+      <i data-lucide="chevron-up" class="w-5 h-5 md:hidden"></i>
+      <i data-lucide="chevron-left" class="w-5 h-5 hidden md:block"></i>
+    </button>
+
+    <div class="layer details" id="details-barber" role="region" aria-label="Prime Barber — детально">
+      <div class="h-full overflow-y-auto scroll-area">
+        <div class="details__inner max-w-6xl mx-auto px-5 sm:px-10 lg:px-16 pt-5 sm:pt-10 pb-10 grid gap-8 lg:gap-14 lg:grid-cols-[1fr_1.15fr]">
+          <header class="lg:col-span-2 flex items-center justify-between gap-4">
+            <span class="text-[11px] tracking-[.35em] uppercase text-amber-glow/70 font-display">Prime Barber</span>
+            <button type="button" data-close class="inline-flex items-center gap-2 border border-white/15 bg-white/5 px-4 py-3 min-h-[44px] text-sm uppercase tracking-[.15em] font-display text-white/80 hover:bg-white/10 hover:text-white transition-colors">
+              До огляду <i data-lucide="x" class="w-4 h-4"></i>
+            </button>
+          </header>
+
+          <div>
+            <h2 class="font-display uppercase font-bold text-4xl sm:text-5xl lg:text-6xl leading-[.9] tracking-tight">Гострі лінії.<br><span class="text-amber-brand">Спокійна голова.</span></h2>
+            <p class="mt-5 text-white/70 leading-relaxed max-w-md">Барбершоп для тих, хто цінує точність. Кожна стрижка починається з консультації, а закінчується укладкою й порадою, як тримати форму вдома. Кава або чай — за рахунок закладу.</p>
+
+            <dl class="mt-8 grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+              <div class="border border-white/10 bg-white/[.03] p-5">
+                <dt class="flex items-center gap-2 text-xs uppercase tracking-[.25em] font-display text-amber-brand"><i data-lucide="clock" class="w-4 h-4"></i> Години</dt>
+                <dd class="mt-3 text-sm text-white/80 leading-relaxed">Пн–Сб · 10:00–21:00<br>Нд · 11:00–17:00</dd>
+              </div>
+              <div class="border border-white/10 bg-white/[.03] p-5">
+                <dt class="flex items-center gap-2 text-xs uppercase tracking-[.25em] font-display text-amber-brand"><i data-lucide="map-pin" class="w-4 h-4"></i> Адреса</dt>
+                <dd class="mt-3 text-sm text-white/80 leading-relaxed">вул. Прикладна, 12<br>1 поверх, окремий вхід</dd>
+              </div>
+            </dl>
+          </div>
+
+          <div class="flex flex-col">
+            <div class="flex items-baseline justify-between">
+              <h3 class="font-display uppercase tracking-[.15em] text-xl">Послуги</h3>
+              <span class="text-xs text-white/45">Оберіть кілька</span>
+            </div>
+            <ul class="mt-4 grid gap-2.5" data-services="barber"></ul>
+            <div class="mt-6 flex flex-col sm:flex-row sm:items-center gap-4">
+              <button type="button" data-book="barber" class="inline-flex justify-center items-center gap-2 bg-amber-brand text-black font-display uppercase tracking-[.2em] font-semibold px-8 py-4 min-h-[52px] shadow-[0_10px_40px_-10px_rgba(212,162,76,.7)] hover:bg-amber-glow transition-colors">
+                Записатися <i data-lucide="calendar-check" class="w-5 h-5"></i>
+              </button>
+              <p class="text-sm text-white/60" data-summary="barber" aria-live="polite">Оберіть послуги — порахуємо суму.</p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<!-- ===================== Booking dialog ===================== -->
+<dialog id="booking" class="w-[min(92vw,440px)] rounded-3xl bg-ink-soft text-white p-0 border border-white/10 shadow-2xl">
+  <form method="dialog" class="p-7 sm:p-8">
+    <div class="flex items-start justify-between gap-4">
+      <div>
+        <p class="text-[11px] tracking-[.3em] uppercase text-white/50">Запис</p>
+        <h2 id="booking-title" class="mt-1 text-2xl font-semibold"></h2>
+      </div>
+      <button value="close" class="-m-2 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10" aria-label="Закрити"><i data-lucide="x" class="w-5 h-5"></i></button>
+    </div>
+    <ul id="booking-list" class="mt-5 divide-y divide-white/10 text-sm"></ul>
+    <p id="booking-total" class="mt-4 flex justify-between text-base font-semibold"></p>
+    <!-- TODO: замінити на справжній телефон / посилання на онлайн-запис -->
+    <a id="booking-call" href="tel:+380000000000" class="mt-6 flex items-center justify-center gap-2 rounded-full py-4 min-h-[52px] font-semibold">
+      <i data-lucide="phone" class="w-5 h-5"></i> Зателефонувати
+    </a>
+    <p class="mt-3 text-center text-xs text-white/45">Адміністратор підбере зручний час.</p>
+  </form>
+</dialog>
+
+<script>
+  (function () {
+    'use strict';
+
+    const CURRENCY = '₴';
+    const FOCUS_DELAY_MS = 600;
+    const BRANDS = {
+      nails: {
+        title: 'Nails Studio',
+        callClass: 'bg-gradient-to-r from-rose-soft to-gold-light text-[#2a1a1c]',
+        services: [
+          { id: 'mani-gel', name: 'Манікюр + гель-лак', meta: '90 хв', price: 650 },
+          { id: 'nail-art', name: 'Nail-art, дизайн', meta: 'до 10 нігтів', price: 250 },
+          { id: 'extension', name: 'Нарощення нігтів', meta: '150 хв', price: 1100 },
+          { id: 'pedi', name: 'Педикюр SMART', meta: '75 хв', price: 800 },
+          { id: 'spa-hands', name: 'SPA-догляд для рук', meta: '30 хв', price: 300 }
+        ]
+      },
+      barber: {
+        title: 'Prime Barber',
+        callClass: 'bg-amber-brand text-black',
+        services: [
+          { id: 'fade', name: 'Fade-стрижка', meta: '50 хв', price: 500 },
+          { id: 'classic', name: 'Класична стрижка', meta: '45 хв', price: 450 },
+          { id: 'beard', name: 'Моделювання бороди', meta: '30 хв', price: 350 },
+          { id: 'hot-towel', name: 'Гоління гарячим рушником', meta: '40 хв', price: 400 },
+          { id: 'combo', name: 'Стрижка + борода', meta: '80 хв', price: 800 }
+        ]
+      }
+    };
+
+    const hero = document.getElementById('hero');
+    const panels = Array.from(document.querySelectorAll('.panel'));
+    const dialog = document.getElementById('booking');
+
+    let activeBrand = null;
+    let selected = { nails: [], barber: [] };
+
+    const formatPrice = (value) => `${value.toLocaleString('uk-UA')} ${CURRENCY}`;
+    const findService = (brand, id) => BRANDS[brand].services.find((s) => s.id === id);
+    const selectedServices = (brand) => selected[brand].map((id) => findService(brand, id));
+    const totalOf = (services) => services.reduce((sum, s) => sum + s.price, 0);
+
+    function renderServices(brand) {
+      const list = document.querySelector(`[data-services="${brand}"]`);
+      const isNails = brand === 'nails';
+      list.innerHTML = BRANDS[brand].services.map((s) => `
+        <li>
+          <button type="button" class="service ${isNails ? 'rounded-2xl' : ''} w-full min-h-[60px] flex items-center gap-4 border border-white/10 bg-white/[.03] hover:bg-white/[.07] px-4 sm:px-5 py-3.5 text-left"
+                  data-service="${s.id}" aria-pressed="false">
+            <span class="service__check grid place-items-center w-6 h-6 shrink-0 ${isNails ? 'rounded-full' : ''} border border-white/30">
+              <i data-lucide="check" class="w-3.5 h-3.5"></i>
+            </span>
+            <span class="flex-1 min-w-0">
+              <span class="block text-[15px] text-white/90 leading-snug">${s.name}</span>
+              <span class="block text-xs text-white/45 mt-0.5">${s.meta}</span>
+            </span>
+            <span class="shrink-0 tabular-nums ${isNails ? 'font-serif text-xl text-rose-blush' : 'font-display text-lg text-amber-brand'}">${formatPrice(s.price)}</span>
+          </button>
+        </li>`).join('');
+    }
+
+    function updateSummary(brand) {
+      const services = selectedServices(brand);
+      const summary = document.querySelector(`[data-summary="${brand}"]`);
+      summary.textContent = services.length
+        ? `Обрано: ${services.length} · разом ${formatPrice(totalOf(services))}`
+        : 'Оберіть послуги — порахуємо суму.';
+      document.querySelectorAll(`[data-services="${brand}"] [data-service]`).forEach((btn) => {
+        btn.setAttribute('aria-pressed', String(selected[brand].includes(btn.dataset.service)));
+      });
+    }
+
+    function toggleService(brand, id) {
+      const current = selected[brand];
+      const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
+      selected = { ...selected, [brand]: next };
+      updateSummary(brand);
+    }
+
+    function setActive(brand) {
+      activeBrand = brand;
+      hero.classList.toggle('has-active', Boolean(brand));
+      panels.forEach((panel) => {
+        const isActive = panel.dataset.brand === brand;
+        panel.classList.toggle('is-active', isActive);
+        panel.querySelectorAll('[data-open]').forEach((btn) => btn.setAttribute('aria-expanded', String(isActive)));
+        panel.querySelector('.details').toggleAttribute('inert', !isActive);
+      });
+      if (!brand) return;
+      const details = document.getElementById(`details-${brand}`);
+      details.querySelector('.scroll-area').scrollTop = 0;
+      setTimeout(() => details.querySelector('[data-close]').focus({ preventScroll: true }), FOCUS_DELAY_MS);
+    }
+
+    function openBooking(brand) {
+      const services = selectedServices(brand);
+      document.getElementById('booking-title').textContent = BRANDS[brand].title;
+      document.getElementById('booking-list').innerHTML = services.length
+        ? services.map((s) => `<li class="flex justify-between gap-4 py-2.5"><span class="text-white/80">${s.name}</span><span class="tabular-nums text-white/60">${formatPrice(s.price)}</span></li>`).join('')
+        : '<li class="py-2.5 text-white/55">Послуги можна обрати на місці — просто зателефонуйте.</li>';
+      document.getElementById('booking-total').innerHTML = services.length
+        ? `<span>Разом</span><span class="tabular-nums">${formatPrice(totalOf(services))}</span>`
+        : '';
+      document.getElementById('booking-call').className =
+        `mt-6 flex items-center justify-center gap-2 rounded-full py-4 min-h-[52px] font-semibold ${BRANDS[brand].callClass}`;
+      dialog.showModal();
+    }
+
+    // ---- Init ----
+    Object.keys(BRANDS).forEach(renderServices);
+    panels.forEach((p) => p.querySelector('.details').setAttribute('inert', ''));
+
+    document.addEventListener('click', (event) => {
+      const openBtn = event.target.closest('[data-open]');
+      if (openBtn) return setActive(openBtn.dataset.open);
+
+      if (event.target.closest('[data-close]')) return setActive(null);
+
+      const serviceBtn = event.target.closest('[data-service]');
+      if (serviceBtn) return toggleService(serviceBtn.closest('.panel').dataset.brand, serviceBtn.dataset.service);
+
+      const bookBtn = event.target.closest('[data-book]');
+      if (bookBtn) return openBooking(bookBtn.dataset.book);
+    });
+
+    document.addEventListener('keydown', (event) => {
+      if (event.key === 'Escape' && activeBrand && !dialog.open) setActive(null);
+    });
+
+    if (window.lucide) {
+      window.lucide.createIcons();
+    } else {
+      console.error('Lucide icons failed to load');
+    }
+  })();
+</script>
+</body>
+</html>
