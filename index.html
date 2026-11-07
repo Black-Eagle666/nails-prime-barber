@@ -10,6 +10,7 @@
   <link rel="preconnect" href="https://fonts.googleapis.com" />
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
   <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,400;0,500;0,600;1,400&family=Inter:wght@300;400;500;600&family=Oswald:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&text=YT&display=swap" rel="stylesheet" />
 
   <script src="https://cdn.tailwindcss.com/3.4.16"></script>
   <script>
@@ -102,15 +103,32 @@
       .rail__label { writing-mode: horizontal-tb; transform: none; }
     }
 
-    /* ---------- Thin gold seam between the halves ---------- */
+    /* ---------- YT logo on the seam ---------- */
     .hero { position: relative; }
-    .seam-line { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease;
+    .seam-line, .seam-logo { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease; }
+    .hero.has-active .seam-line, .hero.has-active .seam-logo { opacity: 0; }
+    .seam-line {
       left: 0; right: 0; top: 50%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 18%, rgba(227,203,155,.55) 82%, transparent); }
-    .hero.has-active .seam-line { opacity: 0; }
+      background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 18%, rgba(227,203,155,.55) 30%, transparent 33%,
+        transparent 67%, rgba(227,203,155,.55) 70%, rgba(227,203,155,.55) 82%, transparent);
+    }
+    .seam-logo {
+      left: 50%; top: var(--logo-y, 50%); transform: translate(-50%, -50%);
+      font-family: "Playfair Display", "Cormorant Garamond", serif; font-weight: 500;
+      font-size: 96px; line-height: .8; letter-spacing: 0; padding-top: .08em;
+      background: linear-gradient(160deg, #f6e7c4 0%, #d9bc84 45%, #a8854b 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(0,0,0,.75));
+    }
     @media (min-width: 768px) {
-      .seam-line { left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
-        background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 12%, rgba(227,203,155,.5) 88%, transparent); }
+      .seam-line {
+        left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
+        background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 12%,
+          rgba(227,203,155,.5) calc(var(--logo-y, 50%) - 100px), transparent calc(var(--logo-y, 50%) - 88px),
+          transparent calc(var(--logo-y, 50%) + 88px), rgba(227,203,155,.5) calc(var(--logo-y, 50%) + 100px),
+          rgba(227,203,155,.5) 88%, transparent);
+      }
+      .seam-logo { font-size: clamp(120px, 12vw, 185px); }
     }
 
     .cover__cta svg { transition: transform .4s ease; }
@@ -153,11 +171,11 @@
     <div class="panel__bg" style="background-image:url('nails-hero.jpg');background-position:center 55%"></div>
     <div class="panel__light"></div>
 
-    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 sm:p-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
+    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 pb-20 sm:p-10 sm:pb-20 md:pb-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
       <span class="inline-flex items-center gap-2 text-[11px] tracking-[.35em] uppercase text-rose-blush/85 mb-4">
         <i data-lucide="sparkles" class="w-4 h-4 text-gold-light"></i> Studio &amp; Academy
       </span>
-      <span data-cover-title class="font-serif font-medium leading-[.9] text-5xl sm:text-6xl lg:text-8xl text-rose-blush">YT Nails<br><em class="font-normal text-gold-light">Studio</em></span>
+      <span data-cover-title class="font-serif font-medium leading-[.9] text-5xl sm:text-6xl lg:text-8xl text-rose-blush">Nails<br><em class="font-normal text-gold-light">Studio</em></span>
       <span class="mt-3 text-[11px] tracking-[.3em] uppercase text-gold-light/80">by Yuliia Tiasko</span>
       <span class="mt-4 max-w-sm md:min-h-[3rem] text-sm sm:text-base text-white/75 font-light">Krásná a bezpečná manikúra. Profesionální tým a individuální přístup.</span>
       <span class="cover__cta mt-6 sm:mt-8 inline-flex items-center gap-3 rounded-full border border-rose-soft/40 bg-white/5 backdrop-blur px-6 py-3.5 text-sm tracking-wide text-rose-blush group-hover:bg-rose-soft/15 transition-colors">
@@ -167,7 +185,7 @@
 
     <button type="button" class="layer rail flex md:flex-col items-center justify-between md:justify-center gap-3 md:gap-6 w-full px-6 md:px-0 bg-ink/40 backdrop-blur-sm text-rose-blush hover:bg-rose-soft/10 transition-colors" data-open="nails" aria-label="Přejít na YT Nails Studio">
       <i data-lucide="sparkles" class="w-5 h-5 text-gold-light shrink-0"></i>
-      <span class="rail__label font-serif text-2xl md:text-3xl tracking-wide">YT Nails <em class="text-gold-light">Studio</em></span>
+      <span class="rail__label font-serif text-2xl md:text-3xl tracking-wide">Nails <em class="text-gold-light">Studio</em></span>
       <i data-lucide="chevron-down" class="w-5 h-5 md:hidden"></i>
       <i data-lucide="chevron-right" class="w-5 h-5 hidden md:block"></i>
     </button>
@@ -337,6 +355,7 @@
   </section>
 
   <div class="seam-line" aria-hidden="true"></div>
+  <div class="seam-logo" role="img" aria-label="YT">YT</div>
 </main>
 
 <!-- ===================== Booking dialog ===================== -->
@@ -582,6 +601,20 @@
         copyBookingMessage(document.getElementById('booking-actions').dataset.brand);
       }
     });
+
+    // ---------- YT logo on the same row as the brand titles (desktop) ----------
+    const desktopQuery = window.matchMedia('(min-width: 768px)');
+    const coverTitle = document.querySelector('[data-cover-title]');
+
+    function placeSeamLogo() {
+      if (!desktopQuery.matches) { hero.style.removeProperty('--logo-y'); return; }
+      const heroRect = hero.getBoundingClientRect();
+      const titleRect = coverTitle.getBoundingClientRect();
+      hero.style.setProperty('--logo-y', `${Math.round(titleRect.top + titleRect.height / 2 - heroRect.top)}px`);
+    }
+    placeSeamLogo();
+    window.addEventListener('resize', placeSeamLogo);
+    if (document.fonts) document.fonts.ready.then(placeSeamLogo);
 
     // ---------- Swipe up / down (touch) ----------
     // Cover: swipe up → bottom brand (Prime Barber), swipe down → top brand (YT Nails).
