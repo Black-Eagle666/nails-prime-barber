@@ -108,34 +108,24 @@
     .hero.has-active .seam-line, .hero.has-active .seam-logo { opacity: 0; }
     .seam-line {
       left: 0; right: 0; top: 50%; height: 1px;
-      background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 30%, rgba(227,203,155,.55) 70%, transparent);
+      background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 18%, rgba(227,203,155,.55) 30%, transparent 33%,
+        transparent 67%, rgba(227,203,155,.55) 70%, rgba(227,203,155,.55) 82%, transparent);
     }
     .seam-logo {
       left: 50%; top: 50%; transform: translate(-50%, -50%);
-      width: 88px; height: 88px; border-radius: 9999px;
-      display: grid; place-items: center;
-      background: rgba(11,10,11,.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
-      border: 1px solid rgba(227,203,155,.7);
-      box-shadow: 0 12px 40px -10px rgba(0,0,0,.7);
-    }
-    .seam-logo::after {
-      content: ''; position: absolute; inset: 5px; border-radius: inherit;
-      border: 1px solid rgba(227,203,155,.28);
-    }
-    .seam-logo__mark {
       font-family: "Cormorant Garamond", serif; font-weight: 500;
-      font-size: 40px; line-height: 1; letter-spacing: -.02em; padding-top: .06em;
-      background: linear-gradient(160deg, #f3e2bb 0%, #c9a96e 55%, #9c7b45 100%);
+      font-size: 104px; line-height: .8; letter-spacing: -.03em; padding-top: .08em;
+      background: linear-gradient(160deg, #f6e7c4 0%, #d9bc84 45%, #a8854b 100%);
       -webkit-background-clip: text; background-clip: text; color: transparent;
+      filter: drop-shadow(0 6px 24px rgba(0,0,0,.75));
     }
     @media (min-width: 768px) {
       .seam-line {
         left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
-        background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 25%, rgba(227,203,155,.5) 75%, transparent);
+        background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 15%, rgba(227,203,155,.5) 37%, transparent 40%,
+          transparent 60%, rgba(227,203,155,.5) 63%, rgba(227,203,155,.5) 85%, transparent);
       }
-      .seam-logo { width: 132px; height: 132px; }
-      .seam-logo::after { inset: 7px; }
-      .seam-logo__mark { font-size: 60px; }
+      .seam-logo { font-size: clamp(130px, 13vw, 200px); }
     }
 
     .cover__cta svg { transition: transform .4s ease; }
@@ -178,7 +168,7 @@
     <div class="panel__bg" style="background-image:url('nails-hero.jpg');background-position:center 55%"></div>
     <div class="panel__light"></div>
 
-    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 pb-16 sm:p-10 sm:pb-16 md:pb-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
+    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 pb-20 sm:p-10 sm:pb-20 md:pb-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
       <span class="inline-flex items-center gap-2 text-[11px] tracking-[.35em] uppercase text-rose-blush/85 mb-4">
         <i data-lucide="sparkles" class="w-4 h-4 text-gold-light"></i> Studio &amp; Academy
       </span>
@@ -361,7 +351,7 @@
   </section>
 
   <div class="seam-line" aria-hidden="true"></div>
-  <div class="seam-logo" role="img" aria-label="YT"><span class="seam-logo__mark" aria-hidden="true">YT</span></div>
+  <div class="seam-logo" role="img" aria-label="YT">YT</div>
 </main>
 
 <!-- ===================== Booking dialog ===================== -->
@@ -607,6 +597,37 @@
         copyBookingMessage(document.getElementById('booking-actions').dataset.brand);
       }
     });
+
+    // ---------- Swipe up / down (touch) ----------
+    // Cover: swipe up → bottom brand (Prime Barber), swipe down → top brand (YT Nails).
+    // When a brand is open, a swipe on the collapsed rail opens the other brand.
+    const SWIPE_MIN_PX = 50;
+    const SWIPE_MAX_MS = 800;
+    const SWIPE_AXIS_RATIO = 1.5;
+    let touchStart = null;
+
+    hero.addEventListener('touchstart', (event) => {
+      if (event.touches.length !== 1) { touchStart = null; return; }
+      const touch = event.touches[0];
+      touchStart = { x: touch.clientX, y: touch.clientY, time: Date.now(), target: event.target };
+    }, { passive: true });
+
+    hero.addEventListener('touchend', (event) => {
+      if (!touchStart || dialog.open) return;
+      const touch = event.changedTouches[0];
+      const dx = touch.clientX - touchStart.x;
+      const dy = touch.clientY - touchStart.y;
+      const isSwipe = Math.abs(dy) >= SWIPE_MIN_PX
+        && Math.abs(dy) > Math.abs(dx) * SWIPE_AXIS_RATIO
+        && Date.now() - touchStart.time <= SWIPE_MAX_MS;
+      const startTarget = touchStart.target;
+      touchStart = null;
+      if (!isSwipe) return;
+
+      if (!activeBrand) return setActive(dy < 0 ? 'barber' : 'nails');
+      const rail = startTarget.closest('.rail');
+      if (rail) setActive(rail.dataset.open);
+    }, { passive: true });
 
     document.addEventListener('keydown', (event) => {
       if (event.key === 'Escape' && activeBrand && !dialog.open) setActive(null);
