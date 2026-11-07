@@ -102,6 +102,42 @@
       .rail__label { writing-mode: horizontal-tb; transform: none; }
     }
 
+    /* ---------- YT logo on the seam ---------- */
+    .hero { position: relative; }
+    .seam-line, .seam-logo { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease; }
+    .hero.has-active .seam-line, .hero.has-active .seam-logo { opacity: 0; }
+    .seam-line {
+      left: 0; right: 0; top: 50%; height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 30%, rgba(227,203,155,.55) 70%, transparent);
+    }
+    .seam-logo {
+      left: 50%; top: 50%; transform: translate(-50%, -50%);
+      width: 88px; height: 88px; border-radius: 9999px;
+      display: grid; place-items: center;
+      background: rgba(11,10,11,.6); backdrop-filter: blur(8px); -webkit-backdrop-filter: blur(8px);
+      border: 1px solid rgba(227,203,155,.7);
+      box-shadow: 0 12px 40px -10px rgba(0,0,0,.7);
+    }
+    .seam-logo::after {
+      content: ''; position: absolute; inset: 5px; border-radius: inherit;
+      border: 1px solid rgba(227,203,155,.28);
+    }
+    .seam-logo__mark {
+      font-family: "Cormorant Garamond", serif; font-weight: 500;
+      font-size: 40px; line-height: 1; letter-spacing: -.02em; padding-top: .06em;
+      background: linear-gradient(160deg, #f3e2bb 0%, #c9a96e 55%, #9c7b45 100%);
+      -webkit-background-clip: text; background-clip: text; color: transparent;
+    }
+    @media (min-width: 768px) {
+      .seam-line {
+        left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
+        background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 25%, rgba(227,203,155,.5) 75%, transparent);
+      }
+      .seam-logo { width: 132px; height: 132px; }
+      .seam-logo::after { inset: 7px; }
+      .seam-logo__mark { font-size: 60px; }
+    }
+
     .cover__cta svg { transition: transform .4s ease; }
     .panel:hover .cover__cta svg { transform: translateX(6px); }
 
@@ -142,7 +178,7 @@
     <div class="panel__bg" style="background-image:url('nails-hero.jpg');background-position:center 55%"></div>
     <div class="panel__light"></div>
 
-    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 sm:p-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
+    <button type="button" class="layer cover group flex flex-col justify-end items-start text-left w-full p-6 pb-16 sm:p-10 sm:pb-16 md:pb-10 lg:p-16 focus:outline-none focus-visible:ring-2 focus-visible:ring-rose-soft/70 focus-visible:ring-inset" data-open="nails" aria-expanded="false">
       <span class="inline-flex items-center gap-2 text-[11px] tracking-[.35em] uppercase text-rose-blush/85 mb-4">
         <i data-lucide="sparkles" class="w-4 h-4 text-gold-light"></i> Studio &amp; Academy
       </span>
@@ -323,6 +359,9 @@
       </div>
     </div>
   </section>
+
+  <div class="seam-line" aria-hidden="true"></div>
+  <div class="seam-logo" role="img" aria-label="YT"><span class="seam-logo__mark" aria-hidden="true">YT</span></div>
 </main>
 
 <!-- ===================== Booking dialog ===================== -->
