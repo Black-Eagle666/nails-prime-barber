@@ -151,6 +151,9 @@
     @media (prefers-reduced-motion: reduce) {
       *, *::before, *::after { transition-duration: .01ms !important; transition-delay: 0s !important; animation-duration: .01ms !important; }
     }
+    .about-more summary::-webkit-details-marker { display: none; }
+    .about-more summary svg { transition: transform .25s ease; }
+    .about-more[open] summary svg { transform: rotate(180deg); }
   </style>
 </head>
 <body class="font-sans text-white overflow-hidden">
@@ -201,7 +204,31 @@
               <li class="inline-flex items-center gap-1.5 rounded-full border border-gold-light/30 px-3 py-1.5 text-gold-light"><i data-lucide="graduation-cap" class="w-3.5 h-3.5"></i> Kurzy pro nehtařky</li>
             </ul>
 
-            <dl class="mt-7 grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
+            <section class="mt-8 rounded-2xl border border-white/10 bg-white/[.04] p-5 sm:p-6" aria-labelledby="nails-about">
+              <div class="flow-root">
+                <img src="nails-yuliia.jpg" alt="Yuliia Tiasko, zakladatelka YT Nails Studio &amp; Academy" loading="lazy" width="800" height="1200" class="float-left w-32 sm:w-40 aspect-[2/3] object-cover rounded-2xl mr-5 mb-3">
+                <div class="font-serif text-lg text-white/80 leading-relaxed">
+                  <p class="text-[11px] font-sans tracking-[.3em] uppercase text-gold-light">Pojďme se poznat</p>
+                  <h3 id="nails-about" class="mt-1 text-3xl text-rose-blush">Kdo jsem?</h3>
+                  <p class="mt-3">Ahoj! Jmenuji se Yuliia a pocházím ze Zakarpatska na Ukrajině. 🇺🇦 Jsem manželka, maminka dvou úžasných dětí a člověk, který svou práci opravdu miluje.</p>
+                  <p class="mt-3">V nail průmyslu působím už 12 let, z toho 6 let se věnuji také vzdělávání. Za tu dobu jsem připravila stovky studentek a předávala jim své zkušenosti, znalosti a lásku k tomuto oboru.</p>
+                </div>
+              </div>
+              <details class="about-more mt-2 font-serif text-lg text-white/80 leading-relaxed">
+                <summary class="mt-3 inline-flex items-center gap-2 cursor-pointer list-none font-sans text-sm text-gold-light hover:underline">Číst celý příběh <i data-lucide="chevron-down" class="w-4 h-4"></i></summary>
+                  <p class="mt-3">Na Ukrajině jsem měla vlastní studio, tým nehtařek, studentky a práci, kterou jsem budovala s velkou láskou. Kvůli válce jsem ale musela všechno opustit a začít novou životní kapitolu v České republice.</p>
+                  <p class="mt-3">Hned po příjezdu jsem si nechala uznat svou odbornou kvalifikaci, začala pracovat v Praze a po půl roce jsem si otevřela svůj malý, útulný salon.</p>
+                  <p class="mt-3">Touha znovu vybudovat něco většího mě ale nikdy neopustila. A dnes mám vlastní Nails Studio &amp; Academy, dvě skvělé nehtařky po svém boku a tým, na který jsem hrdá.</p>
+                  <p class="mt-3">Pro mě je studio mnohem víc než jen místo, kde se dělá manikúra. Chci, aby se u nás každá z vás cítila příjemně, v pohodlí a klidu. Aby mohla na chvíli vypnout, zapomenout na každodenní starosti a věnovat čas jen sama sobě.</p>
+                  <p class="mt-3">Zakládám si na profesionalitě, zodpovědnosti, upřímnosti a vzájemném porozumění. Nejde mi jen o krásné nehty, ale také o to, abych každou z vás vyslechla, pomohla s výběrem a našla přesně to, co vám bude slušet a co vám udělá radost.</p>
+                  <p class="mt-3">Nerada se zastavuji na místě. Mám před sebou ještě spoustu plánů, snů a nových nápadů. A jsem moc ráda, že tento příběh dnes pokračuje právě tady, v České republice, společně s vámi!</p>
+                  <p class="mt-3">Děkuji každé z vás, která mi důvěřuje, vybírá si naše studio a stává se součástí našeho malého příběhu.</p>
+                  <p class="mt-3">Budu se těšit na osobní setkání s každou z vás!</p>
+                  <p class="mt-4 italic text-rose-blush">S láskou,<br>Yuliia Tiasko</p>
+              </details>
+            </section>
+
+            <dl data-nails-contacts class="mt-7 grid sm:grid-cols-2 lg:grid-cols-1 xl:grid-cols-2 gap-4">
               <div class="rounded-2xl border border-white/10 bg-white/[.04] p-5">
                 <dt class="flex items-center gap-2 text-xs uppercase tracking-[.25em] text-gold-light"><i data-lucide="map-pin" class="w-4 h-4"></i> Adresa</dt>
                 <dd class="mt-3 text-sm text-white/80 leading-relaxed">T. G. Masaryka 418<br>562 01 Ústí nad Orlicí<br>
