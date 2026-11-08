@@ -135,15 +135,6 @@
     .panel:hover .cover__cta svg { transform: translateX(6px); }
 
     /* ---------- Services ---------- */
-    .service { transition: background-color .3s ease, border-color .3s ease, transform .2s ease; }
-    .service:active { transform: scale(.985); }
-    .service__check { transition: background-color .25s ease, border-color .25s ease, color .25s ease; }
-    .service__check svg { opacity: 0; transition: opacity .2s ease; }
-    .service[aria-pressed="true"] .service__check svg { opacity: 1; }
-    .panel--nails .service[aria-pressed="true"] { background: rgba(233,191,192,.12); border-color: rgba(233,191,192,.6); }
-    .panel--nails .service[aria-pressed="true"] .service__check { background: #e9bfc0; border-color: #e9bfc0; color: #2a1a1c; }
-    .panel--barber .service[aria-pressed="true"] { background: rgba(212,162,76,.12); border-color: rgba(212,162,76,.7); }
-    .panel--barber .service[aria-pressed="true"] .service__check { background: #d4a24c; border-color: #d4a24c; color: #120e08; }
 
     .tier[aria-checked="true"] { background: #e9bfc0; color: #2a1a1c; }
 
@@ -261,7 +252,6 @@
               <button type="button" data-book="nails" class="inline-flex justify-center items-center gap-2 rounded-full bg-gradient-to-r from-rose-soft to-gold-light text-[#2a1a1c] font-semibold px-8 py-4 min-h-[52px] shadow-[0_10px_40px_-10px_rgba(233,191,192,.6)] hover:brightness-105 transition">
                 Objednat se <i data-lucide="calendar-heart" class="w-5 h-5"></i>
               </button>
-              <p class="text-sm text-white/65" data-summary="nails" aria-live="polite"></p>
             </div>
           </div>
         </div>
@@ -333,10 +323,7 @@
           </div>
 
           <div class="flex flex-col">
-            <div class="flex items-baseline justify-between">
-              <h3 class="font-display uppercase tracking-[.15em] text-xl">Ceník služeb</h3>
-              <span class="text-xs text-white/45">Vyberte jednu i více</span>
-            </div>
+            <h3 class="font-display uppercase tracking-[.15em] text-xl">Ceník služeb</h3>
             <ul class="mt-4 grid gap-2.5" data-services="barber"></ul>
 
             <h4 class="mt-6 text-xs uppercase tracking-[.25em] font-display text-amber-brand">Doporučené doplňkové služby</h4>
@@ -346,7 +333,6 @@
               <button type="button" data-book="barber" class="inline-flex justify-center items-center gap-2 bg-amber-brand text-black font-display uppercase tracking-[.2em] font-semibold px-8 py-4 min-h-[52px] shadow-[0_10px_40px_-10px_rgba(212,162,76,.7)] hover:bg-amber-glow transition-colors">
                 Objednat se <i data-lucide="calendar-check" class="w-5 h-5"></i>
               </button>
-              <p class="text-sm text-white/65" data-summary="barber" aria-live="polite"></p>
             </div>
           </div>
         </div>
@@ -368,9 +354,7 @@
       </div>
       <button value="close" class="-m-2 p-2 rounded-full text-white/60 hover:text-white hover:bg-white/10" aria-label="Zavřít"><i data-lucide="x" class="w-5 h-5"></i></button>
     </div>
-    <ul id="booking-list" class="mt-5 divide-y divide-white/10 text-sm"></ul>
-    <p id="booking-total" class="mt-4 flex justify-between text-base font-semibold"></p>
-    <div id="booking-actions" class="mt-6 grid gap-3"></div>
+    <div id="booking-actions" class="mt-5 grid gap-3"></div>
     <p id="booking-hint" class="mt-3 text-center text-xs text-white/50"></p>
   </form>
 </dialog>
@@ -381,7 +365,6 @@
 
     const CURRENCY = 'Kč';
     const FOCUS_DELAY_MS = 600;
-    const COPIED_HINT_MS = 4000;
 
     // Prices are [min, max?, duration?]. Nails have two tiers (Top master / Master).
     const BRANDS = {
@@ -437,64 +420,35 @@
 
     let activeBrand = null;
     let tiers = { nails: BRANDS.nails.defaultTier, barber: BRANDS.barber.defaultTier };
-    let selected = { nails: [], barber: [] };
 
     // ---------- Pricing helpers ----------
     const num = (value) => value.toLocaleString('cs-CZ');
     const formatRange = ([min, max = min]) => (max !== min ? `${num(min)}–${num(max)} ${CURRENCY}` : `${num(min)} ${CURRENCY}`);
-    const allItems = (brand) => [...BRANDS[brand].services, ...BRANDS[brand].addons];
-    const findItem = (brand, id) => allItems(brand).find((item) => item.id === id);
     const priceOf = (brand, item) => (item.price.length ? item.price : item.price[tiers[brand]]);
-    const selectedItems = (brand) => selected[brand].map((id) => findItem(brand, id));
-    const totalOf = (brand, items) => items.reduce(
-      ([lo, hi], item) => {
-        const [min, max = min] = priceOf(brand, item);
-        return [lo + min, hi + max];
-      },
-      [0, 0]
-    );
-    const itemLabel = (item) => (item.note ? `${item.name} — ${item.note}` : item.name);
     const priceLabel = (brand, item) => `${item.plus ? '+' : BRANDS[brand].pricePrefix}${formatRange(priceOf(brand, item))}`;
-    const totalLabel = (brand, items) => `${BRANDS[brand].pricePrefix}${formatRange(totalOf(brand, items))}`;
 
     // ---------- Rendering ----------
-    function serviceButton(brand, item, compact) {
+    function serviceRow(brand, item, compact) {
       const isNails = brand === 'nails';
       const [, , duration] = priceOf(brand, item);
       const meta = [item.note && !compact ? item.note : '', duration || ''].filter(Boolean).join(' · ');
       const priceClass = isNails ? 'font-serif text-lg sm:text-xl text-rose-blush' : 'font-display text-base sm:text-lg text-amber-brand';
+      const label = compact && item.note ? `${item.name} — ${item.note}` : item.name;
       return `
-        <li>
-          <button type="button" class="service ${isNails ? 'rounded-2xl' : ''} w-full ${compact ? 'min-h-[48px] py-2.5' : 'min-h-[60px] py-3.5'} flex items-center gap-3 sm:gap-4 border border-white/10 bg-white/[.03] hover:bg-white/[.07] px-4 sm:px-5 text-left"
-                  data-service="${item.id}" aria-pressed="${selected[brand].includes(item.id)}">
-            <span class="service__check grid place-items-center w-6 h-6 shrink-0 ${isNails ? 'rounded-full' : ''} border border-white/30">
-              <i data-lucide="check" class="w-3.5 h-3.5"></i>
-            </span>
-            <span class="flex-1 min-w-0">
-              <span class="block ${compact ? 'text-sm' : 'text-[15px]'} text-white/90 leading-snug">${compact && item.note ? itemLabel(item) : item.name}</span>
-              ${meta ? `<span class="block text-xs text-white/45 mt-0.5">${meta}</span>` : ''}
-            </span>
-            <span class="shrink-0 tabular-nums text-right ${priceClass}">${priceLabel(brand, item)}</span>
-          </button>
+        <li class="${isNails ? 'rounded-2xl' : ''} ${compact ? 'min-h-[48px] py-2.5' : 'min-h-[60px] py-3.5'} flex items-center gap-3 sm:gap-4 border border-white/10 bg-white/[.03] px-4 sm:px-5">
+          <span class="flex-1 min-w-0">
+            <span class="block ${compact ? 'text-sm' : 'text-[15px]'} text-white/90 leading-snug">${label}</span>
+            ${meta ? `<span class="block text-xs text-white/45 mt-0.5">${meta}</span>` : ''}
+          </span>
+          <span class="shrink-0 tabular-nums text-right ${priceClass}">${priceLabel(brand, item)}</span>
         </li>`;
     }
 
     function renderLists(brand) {
       document.querySelector(`[data-services="${brand}"]`).innerHTML =
-        BRANDS[brand].services.map((item) => serviceButton(brand, item, false)).join('');
+        BRANDS[brand].services.map((item) => serviceRow(brand, item, false)).join('');
       document.querySelector(`[data-addons="${brand}"]`).innerHTML =
-        BRANDS[brand].addons.map((item) => serviceButton(brand, item, true)).join('');
-      refreshIcons();
-    }
-
-    function updateSummary(brand) {
-      const items = selectedItems(brand);
-      document.querySelector(`[data-summary="${brand}"]`).textContent = items.length
-        ? `Vybráno: ${items.length} · celkem ${totalLabel(brand, items)}`
-        : 'Vyberte služby — spočítáme orientační cenu.';
-      document.querySelectorAll(`.panel[data-brand="${brand}"] [data-service]`).forEach((btn) => {
-        btn.setAttribute('aria-pressed', String(selected[brand].includes(btn.dataset.service)));
-      });
+        BRANDS[brand].addons.map((item) => serviceRow(brand, item, true)).join('');
     }
 
     function setTier(brand, tier) {
@@ -503,14 +457,6 @@
         btn.setAttribute('aria-checked', String(btn.dataset.tier === tier));
       });
       renderLists(brand);
-      updateSummary(brand);
-    }
-
-    function toggleService(brand, id) {
-      const current = selected[brand];
-      const next = current.includes(id) ? current.filter((x) => x !== id) : [...current, id];
-      selected = { ...selected, [brand]: next };
-      updateSummary(brand);
     }
 
     function setActive(brand) {
@@ -529,49 +475,22 @@
     }
 
     // ---------- Booking (phone + Instagram, like Coloristika) ----------
-    function bookingMessage(brand) {
-      const items = selectedItems(brand);
-      const tierNote = brand === 'nails' ? ` (${tiers.nails === 'top' ? 'Top master' : 'Master'})` : '';
-      if (!items.length) return `Dobrý den, chtěl(a) bych se objednat do ${BRANDS[brand].title}.`;
-      const lines = items.map((item) => `• ${itemLabel(item)}`).join('\n');
-      return `Dobrý den, chtěl(a) bych se objednat do ${BRANDS[brand].title}${tierNote}:\n${lines}\nKdy máte volný termín?`;
-    }
-
     function actionLink(href, icon, label, classes, extra = '') {
       return `<a href="${href}" ${extra} class="flex items-center justify-center gap-2 py-4 min-h-[52px] font-semibold ${classes}"><i data-lucide="${icon}" class="w-5 h-5"></i> ${label}</a>`;
     }
 
     function openBooking(brand) {
       const config = BRANDS[brand];
-      const items = selectedItems(brand);
       document.getElementById('booking-title').textContent = config.title;
-      document.getElementById('booking-list').innerHTML = items.length
-        ? items.map((item) => `<li class="flex justify-between gap-4 py-2.5"><span class="text-white/80">${itemLabel(item)}</span><span class="tabular-nums text-white/60 shrink-0">${priceLabel(brand, item)}</span></li>`).join('')
-        : '<li class="py-2.5 text-white/55">Služby můžete vybrat i na místě — stačí se ozvat.</li>';
-      document.getElementById('booking-total').innerHTML = items.length
-        ? `<span>Celkem</span><span class="tabular-nums">${totalLabel(brand, items)}</span>`
-        : '';
 
       const outline = 'border border-white/20 text-white hover:bg-white/10 ' + (brand === 'nails' ? 'rounded-full' : '');
       const instagram = actionLink(`https://ig.me/m/${config.instagram}`, 'instagram', 'Napsat na Instagramu',
-        config.phone ? outline : config.accent, 'target="_blank" rel="noopener" data-instagram');
+        config.phone ? outline : config.accent, 'target="_blank" rel="noopener"');
       const phone = config.phone ? actionLink(config.phone.href, 'phone', `Zavolat ${config.phone.label}`, config.accent) : '';
       document.getElementById('booking-actions').innerHTML = phone + instagram;
       document.getElementById('booking-hint').textContent = 'Termín domluvíme podle vašich možností.';
-      document.getElementById('booking-actions').dataset.brand = brand;
       refreshIcons();
       dialog.showModal();
-    }
-
-    async function copyBookingMessage(brand) {
-      const hint = document.getElementById('booking-hint');
-      try {
-        await navigator.clipboard.writeText(bookingMessage(brand));
-        hint.textContent = 'Text zprávy s vybranými službami je zkopírovaný — stačí ho vložit do chatu.';
-        setTimeout(() => { hint.textContent = 'Termín domluvíme podle vašich možností.'; }, COPIED_HINT_MS);
-      } catch (error) {
-        console.warn('Clipboard is not available:', error);
-      }
     }
 
     function refreshIcons() {
@@ -579,7 +498,7 @@
     }
 
     // ---------- Init ----------
-    Object.keys(BRANDS).forEach((brand) => { renderLists(brand); updateSummary(brand); });
+    Object.keys(BRANDS).forEach(renderLists);
     panels.forEach((panel) => panel.querySelector('.details').setAttribute('inert', ''));
 
     document.addEventListener('click', (event) => {
@@ -591,15 +510,8 @@
       const tierBtn = event.target.closest('[data-tier]');
       if (tierBtn) return setTier(tierBtn.closest('[data-tiers]').dataset.tiers, tierBtn.dataset.tier);
 
-      const serviceBtn = event.target.closest('[data-service]');
-      if (serviceBtn) return toggleService(serviceBtn.closest('.panel').dataset.brand, serviceBtn.dataset.service);
-
       const bookBtn = event.target.closest('[data-book]');
       if (bookBtn) return openBooking(bookBtn.dataset.book);
-
-      if (event.target.closest('[data-instagram]')) {
-        copyBookingMessage(document.getElementById('booking-actions').dataset.brand);
-      }
     });
 
     // ---------- YT logo on the same row as the brand titles (desktop) ----------
