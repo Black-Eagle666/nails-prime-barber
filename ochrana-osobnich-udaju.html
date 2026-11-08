@@ -1,0 +1,95 @@
+<!doctype html>
+<html lang="cs">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <title>Ochrana osobních údajů · YT Nails Studio &amp; Prime Barber</title>
+  <meta name="description" content="Jak YT Nails Studio &amp; Academy a Prime Barber v Ústí nad Orlicí zpracovávají osobní údaje. Web nepoužívá cookies ani analytiku." />
+  <meta name="theme-color" content="#0b0a0b" />
+  <link rel="icon" href="favicon.svg" type="image/svg+xml" />
+  <link rel="icon" href="favicon-32.png" type="image/png" sizes="32x32" />
+  <link rel="apple-touch-icon" href="apple-touch-icon.png" />
+  <style>
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/CormorantGaramond-3.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/CormorantGaramond-4.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/CormorantGaramond-3.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/CormorantGaramond-4.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/CormorantGaramond-3.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Cormorant Garamond'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/CormorantGaramond-4.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 300; font-display: swap; src: url(fonts/Inter-5.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 300; font-display: swap; src: url(fonts/Inter-6.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/Inter-5.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 400; font-display: swap; src: url(fonts/Inter-6.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/Inter-5.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 500; font-display: swap; src: url(fonts/Inter-6.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/Inter-5.woff2) format('woff2'); unicode-range: U+0100-02BA, U+02BD-02C5, U+02C7-02CC, U+02CE-02D7, U+02DD-02FF, U+0304, U+0308, U+0329, U+1D00-1DBF, U+1E00-1E9F, U+1EF2-1EFF, U+2020, U+20A0-20AB, U+20AD-20C4, U+2113, U+2C60-2C7F, U+A720-A7FF; }
+    @font-face { font-family: 'Inter'; font-style: normal; font-weight: 600; font-display: swap; src: url(fonts/Inter-6.woff2) format('woff2'); unicode-range: U+0000-00FF, U+0131, U+0152-0153, U+02BB-02BC, U+02C6, U+02DA, U+02DC, U+0304, U+0308, U+0329, U+2000-206F, U+20AC, U+2122, U+2191, U+2193, U+2212, U+2215, U+FEFF, U+FFFD; }
+    :root { --bg: #0b0a0b; --text: rgba(255,255,255,.8); --muted: rgba(255,255,255,.55); --rose: #f4dcd9; --gold: #e3cb9b; --line: rgba(255,255,255,.1); }
+    * { box-sizing: border-box; }
+    body { margin: 0; background: var(--bg); color: var(--text); font: 300 16px/1.7 Inter, system-ui, sans-serif; }
+    main { max-width: 760px; margin: 0 auto; padding: 32px 16px 64px; }
+    a { color: var(--gold); }
+    .back { display: inline-flex; align-items: center; gap: 8px; min-height: 44px; padding: 10px 18px; border: 1px solid rgba(255,255,255,.15); border-radius: 999px; color: rgba(255,255,255,.85); text-decoration: none; font-size: 14px; }
+    .back:hover { background: rgba(255,255,255,.08); }
+    .eyebrow { margin: 40px 0 0; font-size: 11px; letter-spacing: .3em; text-transform: uppercase; color: var(--gold); }
+    h1 { margin: 8px 0 0; font: 500 clamp(36px, 8vw, 56px)/1 'Cormorant Garamond', serif; color: var(--rose); }
+    h2 { margin: 40px 0 0; font: 500 26px/1.2 'Cormorant Garamond', serif; color: var(--rose); }
+    p, ul { margin: 12px 0 0; }
+    ul { padding-left: 20px; }
+    li + li { margin-top: 6px; }
+    .card { margin-top: 16px; padding: 20px; border: 1px solid var(--line); border-radius: 16px; background: rgba(255,255,255,.04); }
+    .card p:first-child { margin-top: 0; }
+    .muted { color: var(--muted); font-size: 14px; }
+    strong { font-weight: 500; color: #fff; }
+  </style>
+</head>
+<body>
+  <main>
+    <a class="back" href="./">← Zpět na web</a>
+
+    <p class="eyebrow">YT Nails Studio &amp; Prime Barber</p>
+    <h1>Ochrana osobních údajů</h1>
+    <p class="muted">Platné od 8. 11. 2026</p>
+
+    <p>Vážíme si vašeho soukromí. Tento web je jen informační: nemá žádný formulář, <strong>nepoužívá cookies</strong>, analytické ani reklamní nástroje a nic neukládá ve vašem prohlížeči. Písma i obrázky jsou uloženy přímo na našem webu, takže se při jeho prohlížení nic neposílá třetím stranám.</p>
+
+    <h2>Kdo vaše údaje zpracovává</h2>
+    <div class="card">
+      <p><strong>YT Nails Studio &amp; Academy</strong> — Yuliia Tiasko<br>Instagram: <a href="https://www.instagram.com/nails_studio_academy_by_yt/" target="_blank" rel="noopener">@nails_studio_academy_by_yt</a></p>
+      <p><strong>Prime Barber</strong> — Jurij<br>Telefon: <a href="tel:+420605998766">+420 605 998 766</a>, Instagram: <a href="https://www.instagram.com/prime_barber_yt/" target="_blank" rel="noopener">@prime_barber_yt</a></p>
+      <p>Adresa: T. G. Masaryka 418, 562 01 Ústí nad Orlicí</p>
+    </div>
+    <p>Každá provozovna je samostatným správcem údajů, které jí sdělíte.</p>
+
+    <h2>Jaké údaje a proč</h2>
+    <p>Osobní údaje získáváme jen tehdy, když nás sami kontaktujete — telefonicky nebo zprávou na Instagramu. Jde zpravidla o:</p>
+    <ul>
+      <li>jméno nebo přezdívku a kontakt (telefon, uživatelské jméno na Instagramu),</li>
+      <li>vybranou službu, termín a případné poznámky k ní,</li>
+      <li>u kurzů manikúry navíc údaje potřebné k přihlášení a vystavení osvědčení.</li>
+    </ul>
+    <p>Údaje používáme jen k domluvě a poskytnutí služby nebo kurzu (čl. 6 odst. 1 písm. b) GDPR — plnění smlouvy) a k plnění zákonných povinností, například účetních (čl. 6 odst. 1 písm. c) GDPR). Nepoužíváme je k reklamě a neprodáváme je.</p>
+
+    <h2>Jak dlouho je uchováváme</h2>
+    <p>Kontaktní údaje a historii objednávek uchováváme po dobu spolupráce a nejdéle 2 roky od vaší poslední návštěvy. Účetní doklady uchováváme po dobu, kterou stanoví zákon.</p>
+
+    <h2>Komu údaje předáváme</h2>
+    <p>Údaje nepředáváme dalším firmám, s výjimkou:</p>
+    <ul>
+      <li><strong>Meta Platforms</strong> — pokud nám píšete na Instagramu, zprávy zpracovává Meta podle svých <a href="https://privacycenter.instagram.com/policy" target="_blank" rel="noopener">zásad ochrany soukromí</a>;</li>
+      <li><strong>GitHub</strong> (hosting webu) — jako každý webový server může technicky zaznamenat IP adresu návštěvníka kvůli zabezpečení, viz <a href="https://docs.github.com/en/site-policy/privacy-policies/github-general-privacy-statement" target="_blank" rel="noopener">GitHub Privacy Statement</a>;</li>
+      <li>státních orgánů, pokud to vyžaduje zákon.</li>
+    </ul>
+    <p>Odkazy na Instagram a Google Mapy vedou na weby jiných společností. Po kliknutí platí jejich pravidla, včetně jejich cookies.</p>
+
+    <h2>Cookies</h2>
+    <p>Tento web žádné cookies nepoužívá, proto se vás na souhlas s nimi neptáme.</p>
+
+    <h2>Vaše práva</h2>
+    <p>Máte právo požádat o přístup ke svým údajům, jejich opravu nebo výmaz, omezení zpracování, přenesení údajů a vznést námitku. Stačí nám napsat nebo zavolat — odpovíme bez zbytečného odkladu, nejpozději do jednoho měsíce.</p>
+    <p>Pokud nebudete spokojeni, můžete podat stížnost u Úřadu pro ochranu osobních údajů, Pplk. Sochora 27, 170 00 Praha 7, <a href="https://uoou.gov.cz" target="_blank" rel="noopener">uoou.gov.cz</a>.</p>
+
+    <p style="margin-top:48px"><a class="back" href="./">← Zpět na web</a></p>
+  </main>
+</body>
+</html>
