@@ -6,7 +6,7 @@ STAGE="$(mktemp -d)"
 trap 'rm -rf "$STAGE"' EXIT
 mkdir -p "$STAGE/public"
 cd "$SITE"
-git archive HEAD index.html ochrana-osobnich-udaju.html _headers robots.txt fonts \
+git archive HEAD index.html ochrana-osobnich-udaju.html manikura-usti-nad-orlici.html kurzy-manikury.html barber-usti-nad-orlici.html sitemap.xml _headers robots.txt fonts \
   favicon.svg favicon-32.png apple-touch-icon.png '*.jpg' | tar -x -C "$STAGE/public"
 git archive HEAD cloudflare/worker.js cloudflare/wrangler.jsonc | tar -x -C "$STAGE" --strip-components=1
 ls -a "$STAGE/public"
