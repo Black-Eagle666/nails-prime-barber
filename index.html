@@ -118,6 +118,20 @@
       .rail__label { writing-mode: horizontal-tb; transform: none; }
     }
 
+    /* ---------- Phones: keep both cover halves clear of the YT logo on any screen height ---------- */
+    @media (max-width: 767px) {
+      .panel--nails .cover { padding: 14px 24px 64px; }
+      .panel--barber .cover { padding: 82px 24px 14px; }
+      .cover > span:first-child { margin-bottom: 8px; }
+      .cover [data-cover-title] { font-size: clamp(32px, 6.4svh, 48px); }
+      .cover [data-cover-title] + span { margin-top: 6px; }
+      .cover .cover__desc { margin-top: 8px; font-size: 13px; line-height: 1.4; min-height: 0; }
+      .cover .cover__cta { margin-top: 12px; padding-top: 10px; padding-bottom: 10px; }
+    }
+    @media (max-width: 767px) and (max-height: 700px) {
+      .cover .cover__desc { display: none; }
+    }
+
     /* ---------- YT logo on the seam ---------- */
     .hero { position: relative; }
     .seam-line, .seam-logo, .seam-tagline, .seam-motto, .seam-side { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease; }
@@ -220,7 +234,7 @@
       </span>
       <span data-cover-title class="font-display font-bold uppercase leading-[.9] text-5xl sm:text-6xl lg:text-8xl tracking-tight text-rose-blush">Nails<br><span class="text-gold-light">Studio</span></span>
       <span class="mt-3 text-[11px] tracking-[.3em] uppercase text-gold-light/80">Nails Studio &amp; Academy</span>
-      <span class="mt-4 max-w-sm md:min-h-[3rem] text-sm sm:text-base text-white/75">Krásné a zdravé nehty. Profesionální péče. Vzdělávání nové generace nehtařek.</span>
+      <span class="cover__desc mt-4 max-w-sm md:min-h-[3rem] text-sm sm:text-base text-white/75">Krásné a zdravé nehty. Profesionální péče. Vzdělávání nové generace nehtařek.</span>
       <span class="cover__cta mt-6 sm:mt-8 inline-flex items-center gap-3 rounded-full border border-rose-soft/40 bg-white/5 backdrop-blur px-6 py-3.5 text-sm uppercase tracking-[.2em] font-display text-rose-blush group-hover:bg-rose-soft/15 transition-colors">
         Ceník a objednání <svg class="lucide lucide-arrow-right w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
       </span>
@@ -428,7 +442,7 @@
       </span>
       <span data-cover-title class="font-display font-bold uppercase leading-[.9] text-5xl sm:text-6xl lg:text-8xl tracking-tight">Prime<br><span class="text-amber-brand">Barber</span></span>
       <span class="mt-3 text-[11px] tracking-[.3em] uppercase text-amber-glow/80">Ústí nad Orlicí</span>
-      <span class="mt-4 max-w-sm md:min-h-[3rem] text-sm sm:text-base text-white/75">Střihy • Vousy • Holení. Konzultace, precizní kontury a horký ručník.</span>
+      <span class="cover__desc mt-4 max-w-sm md:min-h-[3rem] text-sm sm:text-base text-white/75">Střihy • Vousy • Holení. Konzultace, precizní kontury a horký ručník.</span>
       <span class="cover__cta mt-6 sm:mt-8 inline-flex items-center gap-3 border border-amber-brand/60 bg-black/30 backdrop-blur px-6 py-3.5 text-sm uppercase tracking-[.2em] font-display text-amber-glow group-hover:bg-amber-brand group-hover:text-black transition-colors">
         Ceník a objednání <svg class="lucide lucide-arrow-right w-4 h-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 12h14" /><path d="m12 5 7 7-7 7" /></svg>
       </span>
@@ -723,11 +737,24 @@
     const desktopQuery = window.matchMedia('(min-width: 768px)');
     const coverTitle = document.querySelector('[data-cover-title]');
 
+    // On wide screens the logo sits level with the cover titles. On tablets and small laptops the
+    // titles reach the centre, so the logo, its side labels and the motto move above the cover text.
+    const wideQuery = window.matchMedia('(min-width: 1280px)');
+    const LOGO_CLEARANCE_PX = 104;
+    const LOGO_MIN_Y_PX = 72;
+
     function placeSeamLogo() {
       if (!desktopQuery.matches) { hero.style.removeProperty('--logo-y'); return; }
       const heroRect = hero.getBoundingClientRect();
-      const titleRect = coverTitle.getBoundingClientRect();
-      hero.style.setProperty('--logo-y', `${Math.round(titleRect.top + titleRect.height / 2 - heroRect.top)}px`);
+      if (wideQuery.matches) {
+        const titleRect = coverTitle.getBoundingClientRect();
+        hero.style.setProperty('--logo-y', `${Math.round(titleRect.top + titleRect.height / 2 - heroRect.top)}px`);
+        return;
+      }
+      const coverTop = Math.min(...[...document.querySelectorAll('.cover')]
+        .map((cover) => cover.firstElementChild.getBoundingClientRect().top));
+      const logoY = Math.max(LOGO_MIN_Y_PX, coverTop - heroRect.top - LOGO_CLEARANCE_PX);
+      hero.style.setProperty('--logo-y', `${Math.round(logoY)}px`);
     }
     placeSeamLogo();
     window.addEventListener('resize', placeSeamLogo);
