@@ -120,8 +120,8 @@
 
     /* ---------- YT logo on the seam ---------- */
     .hero { position: relative; }
-    .seam-line, .seam-logo, .seam-tagline { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease; }
-    .hero.has-active .seam-line, .hero.has-active .seam-logo, .hero.has-active .seam-tagline { opacity: 0; }
+    .seam-line, .seam-logo, .seam-tagline, .seam-motto { position: absolute; z-index: 5; pointer-events: none; transition: opacity .5s ease; }
+    .hero.has-active .seam-line, .hero.has-active .seam-logo, .hero.has-active .seam-tagline, .hero.has-active .seam-motto { opacity: 0; }
     .seam-line {
       left: 0; right: 0; top: 50%; height: 1px;
       background: linear-gradient(90deg, transparent, rgba(227,203,155,.55) 18%, rgba(227,203,155,.55) 30%, transparent 33%,
@@ -135,6 +135,11 @@
       -webkit-background-clip: text; background-clip: text; color: transparent;
       filter: drop-shadow(0 6px 24px rgba(0,0,0,.75));
     }
+    .seam-motto {
+      left: 50%; top: calc(var(--logo-y, 50%) - 50px); transform: translate(-50%, -100%); white-space: nowrap;
+      font-family: Inter, system-ui, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
+      color: rgba(255, 255, 255, .78); text-shadow: 0 2px 12px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.6);
+    }
     .seam-tagline {
       left: 50%; top: calc(var(--logo-y, 50%) + 50px); transform: translateX(-50%); white-space: nowrap;
       font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
@@ -144,12 +149,13 @@
       .seam-line {
         left: 50%; right: auto; top: 0; bottom: 0; width: 1px; height: auto;
         background: linear-gradient(180deg, transparent, rgba(227,203,155,.5) 12%,
-          rgba(227,203,155,.5) calc(var(--logo-y, 50%) - 100px), transparent calc(var(--logo-y, 50%) - 88px),
+          rgba(227,203,155,.5) calc(var(--logo-y, 50%) - 142px), transparent calc(var(--logo-y, 50%) - 130px),
           transparent calc(var(--logo-y, 50%) + 130px), rgba(227,203,155,.5) calc(var(--logo-y, 50%) + 142px),
           rgba(227,203,155,.5) 88%, transparent);
       }
       .seam-logo { font-size: clamp(120px, 12vw, 185px); }
       .seam-tagline { top: calc(var(--logo-y, 50%) + clamp(66px, 6.4vw, 98px)); font-size: clamp(11px, 1vw, 14px); }
+      .seam-motto { top: calc(var(--logo-y, 50%) - clamp(68px, 6.4vw, 100px)); font-size: clamp(11px, .95vw, 13px); letter-spacing: .22em; }
     }
 
     .cover__cta svg { transition: transform .4s ease; }
@@ -508,6 +514,7 @@
   </section>
 
   <div class="seam-line" aria-hidden="true"></div>
+  <p class="seam-motto">Two directions. One vision. One family brand</p>
   <div class="seam-logo" role="img" aria-label="YT">YT</div>
   <p class="seam-tagline">Beauty • Barber • Academy</p>
 </main>
