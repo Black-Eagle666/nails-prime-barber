@@ -2,7 +2,7 @@
 <html lang="cs">
 <head>
   <meta charset="utf-8" />
-  <script>if (location.hostname.endsWith("github.io")) location.replace("https://ytconcept.cz" + location.pathname.replace(/^\\/nails-prime-barber/, "").replace(/\\.html$/, "").replace(/\\/index$/, "/"));</script>
+  <script>if (location.hostname.endsWith("github.io")) { var page = location.pathname.split("/").pop().replace(".html", ""); location.replace("https://ytconcept.cz/" + (page === "index" ? "" : page)); }</script>
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
   <title>Manikúra a barber Ústí nad Orlicí | YT Nails Studio &amp; Prime Barber</title>
   <meta name="description" content="Manikúra, kurzy manikúry a pánské holičství pod jednou střechou: YT Nails Studio &amp; Academy a Prime Barber, T. G. Masaryka 418, Ústí nad Orlicí. Ceník a objednání." />
