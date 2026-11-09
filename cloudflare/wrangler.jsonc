@@ -4,7 +4,7 @@
   "main": "worker.js",
   "compatibility_date": "2026-11-01",
   "assets": { "directory": "./public", "binding": "ASSETS", "run_worker_first": true },
-  "workers_dev": true,
+  "workers_dev": false,
   "routes": [
     { "pattern": "ytconcept.cz", "custom_domain": true },
     { "pattern": "www.ytconcept.cz", "custom_domain": true }
