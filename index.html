@@ -136,12 +136,12 @@
       filter: drop-shadow(0 6px 24px rgba(0,0,0,.75));
     }
     .seam-motto {
-      left: 50%; top: calc(var(--logo-y, 50%) - 50px); transform: translate(-50%, -100%); white-space: nowrap;
+      left: 50%; top: calc(var(--logo-y, 50%) + 50px); transform: translateX(-50%); white-space: nowrap;
       font-family: Inter, system-ui, sans-serif; font-size: 10px; font-weight: 500; letter-spacing: .14em; text-transform: uppercase;
       color: rgba(255, 255, 255, .78); text-shadow: 0 2px 12px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.6);
     }
     .seam-tagline {
-      left: 50%; top: calc(var(--logo-y, 50%) + 50px); transform: translateX(-50%); white-space: nowrap;
+      left: 50%; top: calc(var(--logo-y, 50%) - 50px); transform: translate(-50%, -100%); white-space: nowrap;
       font-family: Inter, system-ui, sans-serif; font-size: 11px; font-weight: 500; letter-spacing: .32em; text-transform: uppercase;
       color: #e3cb9b; text-shadow: 0 2px 12px rgba(0,0,0,.9), 0 0 2px rgba(0,0,0,.6);
     }
@@ -154,8 +154,8 @@
           rgba(227,203,155,.5) 88%, transparent);
       }
       .seam-logo { font-size: clamp(120px, 12vw, 185px); }
-      .seam-tagline { top: calc(var(--logo-y, 50%) + clamp(66px, 6.4vw, 98px)); font-size: clamp(11px, 1vw, 14px); }
-      .seam-motto { top: calc(var(--logo-y, 50%) - clamp(68px, 6.4vw, 100px)); font-size: clamp(11px, .95vw, 13px); letter-spacing: .22em; }
+      .seam-tagline { top: calc(var(--logo-y, 50%) - clamp(68px, 6.4vw, 100px)); font-size: clamp(11px, 1vw, 14px); }
+      .seam-motto { top: calc(var(--logo-y, 50%) + clamp(66px, 6.4vw, 98px)); font-size: clamp(11px, .95vw, 13px); letter-spacing: .22em; }
     }
 
     .cover__cta svg { transition: transform .4s ease; }
@@ -514,9 +514,9 @@
   </section>
 
   <div class="seam-line" aria-hidden="true"></div>
-  <p class="seam-motto">Two directions. One vision. One family brand</p>
-  <div class="seam-logo" role="img" aria-label="YT">YT</div>
   <p class="seam-tagline">Beauty • Barber • Academy</p>
+  <div class="seam-logo" role="img" aria-label="YT">YT</div>
+  <p class="seam-motto">Two directions. One vision. One family brand</p>
 </main>
 
 <!-- ===================== Booking dialog ===================== -->
