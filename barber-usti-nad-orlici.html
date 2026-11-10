@@ -88,6 +88,10 @@
     .about { display: grid; grid-template-columns: minmax(0, 160px) 1fr; gap: 20px; align-items: start; margin-top: 16px; }
     .about img { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; filter: grayscale(1); display: block; }
     .about p:first-child { margin-top: 0; }
+    .owner { margin: 16px auto 0; max-width: 380px; }
+    .owner img { width: 100%; height: auto; aspect-ratio: 2 / 3; object-fit: cover; display: block; }
+    .owner figcaption { margin-top: 14px; text-align: center; font: 500 17px/1.4 'Oswald', sans-serif; letter-spacing: .12em; text-transform: uppercase; color: #fff; }
+    .owner figcaption span { color: var(--accent2); white-space: nowrap; }
     .faq details { margin-top: 10px; padding: 14px 18px; border: 1px solid rgba(255,255,255,.1); border-radius: var(--radius); }
     .faq summary { cursor: pointer; font-weight: 500; color: #fff; }
     .faq details p { margin-top: 8px; }
@@ -124,7 +128,7 @@
    },
    "founder": {
     "@type": "Person",
-    "name": "Yurii"
+    "name": "Yurii Tiasko"
    },
    "sameAs": [
     "https://www.instagram.com/prime_barber_yt/"
@@ -284,11 +288,11 @@
     </table>
     <div class="card"><h3>Doplňkové služby</h3><ul class="list"><li>Mytí vlasů — 100 Kč</li><li>Styling premium — 100 Kč</li><li>Úprava obočí — 100 Kč</li><li>Vosk (uši / nos) — 150 Kč</li><li>Holení hlavy břitvou — 450 Kč</li></ul></div>
 
-    <h2>Váš barber Yurii</h2>
-    <div class="about">
-      <img src="barber-jurij.jpg" alt="Barber Yurii, majitel Prime Barber" loading="lazy" width="800" height="1200">
-      <div><p>Jmenuji se Yurii, je mi 35 let a pocházím ze Zakarpatska. Před rokem jsem absolvoval profesionální školení a dnes se v oboru dále rozvíjím a zdokonaluji své dovednosti.</p><p>Prime Barber je můj první vlastní podnik, do kterého jsem vložil spoustu práce, energie a především kus svého srdce. Záleží mi především na kvalitě, preciznosti a pohodlí každého klienta.</p><p>Vytvořil jsem prostor určený výhradně mužům — útulné místo, kde můžete relaxovat, být sami sebou a dopřát si chvíli jen pro sebe.</p><p class="slogan">Prime Barber – to není jen střih. Je to váš čas pro sebe.</p></div>
-    </div>
+    <h2>Váš barber</h2>
+    <figure class="owner">
+      <img src="barber-yurii-studio.jpg" alt="Yurii Tiasko, majitel studia a barber Prime Barber" loading="lazy" width="600" height="900">
+      <figcaption>Majitel studia a barber <span>Yurii Tiasko</span></figcaption>
+    </figure>
 
     <h2>Naše práce</h2>
     <div class="grid"><img src="barber-1.jpg" alt="Barber při střihu v Prime Barber" loading="lazy" width="600" height="800"><img src="barber-2.jpg" alt="Pánský fade střih" loading="lazy" width="600" height="800"><img src="barber-3.jpg" alt="Interiér holičství Prime Barber" loading="lazy" width="600" height="800"><img src="barber-4.jpg" alt="Krátký pánský střih" loading="lazy" width="600" height="800"><img src="barber-5.jpg" alt="Střih nůžkami na hřeben" loading="lazy" width="600" height="800"><img src="barber-7.jpg" alt="Spokojený klient po střihu" loading="lazy" width="600" height="800"></div>
